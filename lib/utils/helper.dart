@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// This class contains helper functions to be used across the project.
 class helper {
-
   /// Responsible for pushing a new page to the Navigator, thus navigating.
   /// Receives a context and a widget page.
   static void loadPage(BuildContext context, Widget page) {
@@ -19,7 +17,4 @@ class helper {
             (Route<dynamic> route) => false
     );
   }
-
-
-
 }

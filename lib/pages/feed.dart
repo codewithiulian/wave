@@ -1,27 +1,32 @@
-import 'dart:core';
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:email_validator/email_validator.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-import 'login.dart';
-import '../utils/helper.dart';
-
-
-class FeedPage extends StatefulWidget {
-  final String title = 'Feed';
-
-  @override
-  State createState() => FeedPageState();
+void main() {
+  runApp(FeedPage());
 }
 
-class FeedPageState extends State<FeedPage> {
+class FeedPage extends StatefulWidget {
+  FeedPage({this.title});
+
+  final String title;
+
+  @override
+  _FeedPageState createState() => _FeedPageState();
+}
+
+class _FeedPageState extends State<FeedPage> {
+  @override
+  void initState() {}
 
   @override
   Widget build(BuildContext context) {
+    // If the user is not logged in.
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      resizeToAvoidBottomPadding: false,
+      backgroundColor: Colors.grey[200],
+      appBar: null,
       body: Text('Welcome to the feed')
     );
   }
