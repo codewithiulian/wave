@@ -35,7 +35,7 @@ class RegisterPageState extends State<RegisterPage> {
     RequiredValidator(errorText: 'Please enter your email address'),
     EmailValidator(errorText: 'Please enter a valid email address')
   ]);
-  final AuthHelper _auth = AuthHelper();
+  final AuthHelper _authHelper = AuthHelper();
 
   String _registrationMessage = '';
 
@@ -56,7 +56,9 @@ class RegisterPageState extends State<RegisterPage> {
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
                   child: RaisedButton.icon(
-                    onPressed: _googleSignInOnPressed,
+                    onPressed: () async {
+                      await _googleSignInOnPressed();
+                    },
                     icon: Icon(
                       FontAwesome5Brands.google,
                       color: Colors.indigo,
@@ -79,7 +81,6 @@ class RegisterPageState extends State<RegisterPage> {
                           prefixIcon: Icon(FontAwesome.envelope),
                         ),
                         validator: _emailValidator,
-//                        validator: (String value) => _validateEmail(value),
                       ),
                       TextFormField(
                         controller: _passwordController,
@@ -95,7 +96,7 @@ class RegisterPageState extends State<RegisterPage> {
                         child: RaisedButton.icon(
                           onPressed: () async {
                             if (_formKey.currentState.validate()) {
-                              _emailSignUpOnPressed(context);
+                              await _emailSignUpOnPressed(context);
                             }
                           },
                           icon: Icon(
@@ -130,14 +131,35 @@ class RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  void _googleSignInOnPressed() {
-    print('Google sign in pressed!');
-  }
-
-  void _emailSignUpOnPressed(BuildContext context) async {
+  Future _googleSignInOnPressed() async {
     User user;
     try {
-      user = await _auth.registerEmailAndPassword(
+      print('Signing user in with Google...');
+      user = await _authHelper.signUserInWithGoogle();
+    } catch (e) {
+      setState(() {
+        _registrationMessage =
+        'An erorr occured while attempting to sign in with your Google account.';
+      });
+    }
+
+    if (user != null) {
+      setState(() {
+        _registrationMessage = 'Successfuly signed in on wave.';
+        print('Successfuly signed in. Redirecting to the Home page.');
+      });
+
+      // Redirect to the Feed
+      Helper.redirect(context, HomePage());
+    } else {
+      _showSnackBar();
+    }
+  }
+
+  Future<void> _emailSignUpOnPressed(BuildContext context) async {
+    User user;
+    try {
+      user = await _authHelper.registerUserWithEmailAndPassword(
           _emailController.text, _passwordController.text);
     } catch (error) {
       setState(() {
