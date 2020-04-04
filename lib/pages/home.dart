@@ -5,7 +5,7 @@ import '../utils/auth.dart';
 
 
 class HomePage extends StatelessWidget {
-  final AuthService _authService = AuthService();
+  final AuthHelper _authService = AuthHelper();
 
   @override
   void initState() {}

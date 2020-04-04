@@ -35,7 +35,7 @@ class RegisterPageState extends State<RegisterPage> {
     RequiredValidator(errorText: 'Please enter your email address'),
     EmailValidator(errorText: 'Please enter a valid email address')
   ]);
-  final AuthService _auth = AuthService();
+  final AuthHelper _auth = AuthHelper();
 
   String _registrationMessage = '';
 
