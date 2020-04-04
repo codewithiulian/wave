@@ -5,9 +5,6 @@ import '../pages/register.dart';
 import '../pages/login.dart';
 
 class LandingPage extends StatefulWidget {
-  LandingPage({this.title});
-
-  final String title;
 
   @override
   _LandingPageState createState() => _LandingPageState();

@@ -9,8 +9,6 @@ import 'package:wave/pages/login.dart';
 import '../utils/helper.dart';
 import '../utils/auth.dart';
 
-final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-
 class RegisterPage extends StatefulWidget {
   final String title = 'Sign up';
 
@@ -39,8 +37,6 @@ class RegisterPageState extends State<RegisterPage> {
   ]);
   final AuthService _auth = AuthService();
 
-  bool _success;
-  String _userEmail = '';
   String _registrationMessage = '';
 
   @override
@@ -153,15 +149,12 @@ class RegisterPageState extends State<RegisterPage> {
 
     if (user != null) {
       setState(() {
-        _success = true;
-        _userEmail = user.email;
         _registrationMessage = 'Successfuly registered on wave.';
       });
 
       // Redirect to the Feed
       Helper.redirect(context, HomePage());
     } else {
-      _success = false;
       _showSnackBar();
     }
   }

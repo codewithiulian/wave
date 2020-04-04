@@ -33,8 +33,9 @@ class AuthService {
   /// Signs the user out.
   /// Returns null after it is signed out.
   /// See console for any potential errors thrown.
-  Future<void> signOut() async {
+  Future signOut() async {
     try {
+      print('Sign out');
       return await _firebaseAuth.signOut();
     }catch (e) {
       print(e.toString());

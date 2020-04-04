@@ -12,8 +12,12 @@ class Router extends StatelessWidget {
 
     // Add listener to the User provider defined in Wave class.
     final user = Provider.of<User>(context);
-
+    print(user);
     // Return to the LandingPage if not authenticated.
-    return user != null ? HomePage() : LandingPage();
+    if(user == null) {
+      return LandingPage();
+    } else {
+      return HomePage();
+    }
   }
 }
