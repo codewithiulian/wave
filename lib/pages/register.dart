@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
+import 'package:wave/models/user.dart';
 import 'feed.dart';
+import 'package:wave/pages/login.dart';
 import '../utils/helper.dart';
+import '../utils/auth.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
+final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
 class RegisterPage extends StatefulWidget {
   final String title = 'Sign up';
@@ -18,23 +21,23 @@ class RegisterPage extends StatefulWidget {
 class RegisterPageState extends State<RegisterPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldState =
-  new GlobalKey<ScaffoldState>();
+      new GlobalKey<ScaffoldState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final MultiValidator _passwordValidator = MultiValidator([
     RequiredValidator(errorText: 'Please choose a password'),
     MinLengthValidator(8,
         errorText:
-        'Please choose a password that is at least 8 characters long'),
+            'Please choose a password that is at least 8 characters long'),
     PatternValidator(r'(?=.*?[#?!@$%^&*-])',
         errorText:
-        'Please choose a password that is at least one special character')
+            'Please choose a password that is at least one special character')
   ]);
   final MultiValidator _emailValidator = MultiValidator([
     RequiredValidator(errorText: 'Please enter your email address'),
     EmailValidator(errorText: 'Please enter a valid email address')
   ]);
-  final snackBar = SnackBar(content: Text('Yay! A SnackBar!'));
+  final AuthService _auth = AuthService();
 
   bool _success;
   String _userEmail = '';
@@ -106,6 +109,19 @@ class RegisterPageState extends State<RegisterPage> {
                           label: Text('Sign up'),
                         ),
                       ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+                        child: Text('Already have an account?'),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),
+                        child: FlatButton(
+                          child: Text('Log in'),
+                          textColor: Colors.indigo,
+                          onPressed: () =>
+                              Helper.loadPage(context, LoginPage()),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -123,11 +139,10 @@ class RegisterPageState extends State<RegisterPage> {
   }
 
   void _emailSignUpOnPressed(BuildContext context) async {
-    FirebaseUser user;
+    User user;
     try {
-      user = (await _auth.createUserWithEmailAndPassword(
-          email: _emailController.text, password: _passwordController.text))
-          .user;
+      user = await _auth.registerEmailAndPassword(
+          _emailController.text, _passwordController.text);
     } catch (error) {
       setState(() {
         if (error.toString().contains('ERROR_EMAIL_ALREADY_IN_USE')) {
@@ -143,7 +158,8 @@ class RegisterPageState extends State<RegisterPage> {
         _registrationMessage = 'Successfuly registered on wave.';
       });
 
-      helper.redirect(context, FeedPage());
+      // Redirect to the Feed
+      Helper.redirect(context, FeedPage());
     } else {
       _success = false;
       _showSnackBar();
@@ -151,16 +167,14 @@ class RegisterPageState extends State<RegisterPage> {
   }
 
   void _showSnackBar() {
-    _scaffoldState.currentState.showSnackBar(
-      SnackBar(
-        content: Text(_registrationMessage),
-        duration: Duration(seconds: 5),
-        action: SnackBarAction(
-          label: 'OK',
-          onPressed: () => _scaffoldState.currentState.hideCurrentSnackBar(),
-        ),
-      )
-    );
+    _scaffoldState.currentState.showSnackBar(SnackBar(
+      content: Text(_registrationMessage),
+      duration: Duration(seconds: 5),
+      action: SnackBarAction(
+        label: 'OK',
+        onPressed: () => _scaffoldState.currentState.hideCurrentSnackBar(),
+      ),
+    ));
   }
 
   @override

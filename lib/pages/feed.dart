@@ -3,7 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+
 void main() {
+
   runApp(FeedPage());
 }
 
@@ -27,7 +29,7 @@ class _FeedPageState extends State<FeedPage> {
       resizeToAvoidBottomPadding: false,
       backgroundColor: Colors.grey[200],
       appBar: null,
-      body: Text('Welcome to the feed')
+      body: Padding(padding: EdgeInsets.all(40.0), child: Text('Welcome to the feed'))
     );
   }
 }

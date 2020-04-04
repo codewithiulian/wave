@@ -8,7 +8,6 @@ class LoginPage extends StatefulWidget {
 
 class LoginPageState extends State<LoginPage> {
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -67,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                   padding: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
                   child: RaisedButton(
                     child: Text('Sign up'),
-                    onPressed: () => helper.loadPage(context, RegisterPage()),
+                    onPressed: () => Helper.loadPage(context, RegisterPage()),
                   ),
                 ),
                 Text('or'),
@@ -75,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                   padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
                   child: RaisedButton(
                     child: Text('Log in'),
-                    onPressed: () => helper.loadPage(context, LoginPage()),
+                    onPressed: () => Helper.loadPage(context, LoginPage()),
                   ),
                 ),
               ],
