@@ -10,9 +10,20 @@ class AuthHelper {
   /// Registers a user using their email and password.
   /// Takes in the user email and password as strings.
   /// Returns a FirebaseUser object.
-  Future<User> registerUserWithEmailAndPassword(String email, String password) async {
+  Future<User> registerUserWithEmailAndPassword(
+      String email, String password) async {
     return _getUserFromFirebaseUser((await _firebaseAuth
             .createUserWithEmailAndPassword(email: email, password: password))
+        .user);
+  }
+
+  /// Authenticates a user in the system.
+  /// Requires email and password as strings.
+  /// Returns a custom User object.
+  Future<User> authenticateUserWithEmailAndPassword(
+      String email, String password) async {
+    return _getUserFromFirebaseUser((await _firebaseAuth
+            .signInWithEmailAndPassword(email: email, password: password))
         .user);
   }
 

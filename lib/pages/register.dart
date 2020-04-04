@@ -1,11 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
 import 'package:wave/models/user.dart';
 import 'home.dart';
-import 'package:wave/pages/login.dart';
 import '../utils/helper.dart';
 import '../utils/auth.dart';
 
@@ -22,6 +20,8 @@ class RegisterPageState extends State<RegisterPage> {
       new GlobalKey<ScaffoldState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _passwordConfirmController = TextEditingController();
+  String _password = '';
   final MultiValidator _passwordValidator = MultiValidator([
     RequiredValidator(errorText: 'Please choose a password'),
     MinLengthValidator(8,
@@ -43,88 +43,101 @@ class RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldState,
-      resizeToAvoidBottomPadding: false,
       appBar: AppBar(title: Text(widget.title)),
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 0.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
-                  child: RaisedButton.icon(
-                    onPressed: () async {
-                      await _googleSignInOnPressed();
-                    },
-                    icon: Icon(
-                      FontAwesome5Brands.google,
-                      color: Colors.indigo,
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 0.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+                    child: RaisedButton.icon(
+                      onPressed: () async {
+                        await _googleSignInOnPressed();
+                      },
+                      icon: Icon(
+                        FontAwesome5Brands.google,
+                        color: Colors.indigo,
+                      ),
+                      label: Text('Sign up with Google'),
                     ),
-                    label: Text('Sign in with Google'),
                   ),
+                  alignment: Alignment.center,
                 ),
-                alignment: Alignment.center,
-              ),
-              Container(
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
-                  child: Column(
-                    children: <Widget>[
-                      Text('or sign up with your email'),
-                      TextFormField(
-                        controller: _emailController,
-                        decoration: const InputDecoration(
-                          labelText: 'Email',
-                          prefixIcon: Icon(FontAwesome.envelope),
-                        ),
-                        validator: _emailValidator,
-                      ),
-                      TextFormField(
-                        controller: _passwordController,
-                        decoration: const InputDecoration(
-                          labelText: 'Password',
-                          prefixIcon: Icon(FontAwesome.lock),
-                        ),
-                        validator: _passwordValidator,
-                        obscureText: true,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-                        child: RaisedButton.icon(
-                          onPressed: () async {
-                            if (_formKey.currentState.validate()) {
-                              await _emailSignUpOnPressed(context);
-                            }
-                          },
-                          icon: Icon(
-                            FontAwesome.check,
-                            color: Colors.indigo,
+                Container(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
+                    child: Column(
+                      children: <Widget>[
+                        Text('or with your email'),
+                        TextFormField(
+                          controller: _emailController,
+                          decoration: const InputDecoration(
+                            labelText: 'Email',
+                            prefixIcon: Icon(FontAwesome.envelope),
                           ),
-                          label: Text('Sign up'),
+                          validator: _emailValidator,
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-                        child: Text('Already have an account?'),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),
-                        child: FlatButton(
-                          child: Text('Log in'),
-                          textColor: Colors.indigo,
-                          onPressed: () =>
-                              Helper.loadPage(context, LoginPage()),
+                        TextFormField(
+                          controller: _passwordController,
+                          onChanged: (val) => _password = val,
+                          decoration: const InputDecoration(
+                            labelText: 'Password',
+                            prefixIcon: Icon(FontAwesome.lock),
+                          ),
+                          validator: _passwordValidator,
+                          obscureText: true,
                         ),
-                      ),
-                    ],
+                        TextFormField(
+                          controller: _passwordConfirmController,
+                          decoration: const InputDecoration(
+                            labelText: 'Confirm password',
+                            prefixIcon: Icon(FontAwesome.lock),
+                          ),
+                          validator: (confirmedPassword) => MatchValidator(
+                                  errorText: 'Passwords do not match')
+                              .validateMatch(_password, confirmedPassword),
+                          obscureText: true,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+                          child: RaisedButton.icon(
+                            onPressed: () async {
+                              if (_formKey.currentState.validate()) {
+                                await _emailSignUpOnPressed(context);
+                              }
+                            },
+                            icon: Icon(
+                              FontAwesome.check,
+                              color: Colors.indigo,
+                            ),
+                            label: Text('Create account'),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+                          child: Text('Already have an account?'),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),
+                          child: FlatButton(
+                            child: Text('Log in'),
+                            textColor: Colors.indigo,
+                            onPressed: () =>
+                                Helper.goBack(context),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
+                  alignment: Alignment.center,
                 ),
-                alignment: Alignment.center,
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -139,7 +152,7 @@ class RegisterPageState extends State<RegisterPage> {
     } catch (e) {
       setState(() {
         _registrationMessage =
-        'An erorr occured while attempting to sign in with your Google account.';
+            'An erorr occured while attempting to sign in with your Google account.';
       });
     }
 
@@ -152,7 +165,7 @@ class RegisterPageState extends State<RegisterPage> {
       // Redirect to the Feed
       Helper.redirect(context, HomePage());
     } else {
-      _showSnackBar();
+      Helper.showSnackBar(_scaffoldState, _registrationMessage, 5);
     }
   }
 
@@ -177,19 +190,8 @@ class RegisterPageState extends State<RegisterPage> {
       // Redirect to the Feed
       Helper.redirect(context, HomePage());
     } else {
-      _showSnackBar();
+      Helper.showSnackBar(_scaffoldState, _registrationMessage, 5);
     }
-  }
-
-  void _showSnackBar() {
-    _scaffoldState.currentState.showSnackBar(SnackBar(
-      content: Text(_registrationMessage),
-      duration: Duration(seconds: 5),
-      action: SnackBarAction(
-        label: 'OK',
-        onPressed: () => _scaffoldState.currentState.hideCurrentSnackBar(),
-      ),
-    ));
   }
 
   @override
