@@ -12,8 +12,8 @@ void main() {
 class Wave extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Provider(
-      create: (_) => AuthHelper().user,
+    return StreamProvider<User>.value(
+      value: AuthHelper().user,
       child: MaterialApp(
         title: 'wave',
         theme: ThemeData(
