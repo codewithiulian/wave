@@ -4,7 +4,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
 import 'package:wave/models/user.dart';
-import 'feed.dart';
+import 'home.dart';
 import 'package:wave/pages/login.dart';
 import '../utils/helper.dart';
 import '../utils/auth.dart';
@@ -159,7 +159,7 @@ class RegisterPageState extends State<RegisterPage> {
       });
 
       // Redirect to the Feed
-      Helper.redirect(context, FeedPage());
+      Helper.redirect(context, HomePage());
     } else {
       _success = false;
       _showSnackBar();
