@@ -20,7 +20,8 @@ class RegisterPageState extends State<RegisterPage> {
       new GlobalKey<ScaffoldState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _passwordConfirmController = TextEditingController();
+  final TextEditingController _passwordConfirmController =
+      TextEditingController();
   String _password = '';
   final MultiValidator _passwordValidator = MultiValidator([
     RequiredValidator(errorText: 'Please choose a password'),
@@ -127,8 +128,7 @@ class RegisterPageState extends State<RegisterPage> {
                           child: FlatButton(
                             child: Text('Log in'),
                             textColor: Colors.indigo,
-                            onPressed: () =>
-                                Helper.goBack(context),
+                            onPressed: () => Helper.goBack(context),
                           ),
                         ),
                       ],
@@ -163,7 +163,7 @@ class RegisterPageState extends State<RegisterPage> {
       });
 
       // Redirect to the Feed
-      Helper.redirect(context, HomePage());
+      Helper.redirect(context, '/HomePage');
     } else {
       Helper.showSnackBar(_scaffoldState, _registrationMessage, 5);
     }
@@ -188,7 +188,7 @@ class RegisterPageState extends State<RegisterPage> {
       });
 
       // Redirect to the Feed
-      Helper.redirect(context, HomePage());
+      Helper.redirect(context, '/HomePage');
     } else {
       Helper.showSnackBar(_scaffoldState, _registrationMessage, 5);
     }

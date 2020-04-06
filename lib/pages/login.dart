@@ -115,7 +115,8 @@ class _LoginPageState extends State<LoginPage> {
                         child: FlatButton(
                           child: Text('Sign Up'),
                           textColor: Colors.indigo,
-                          onPressed: () => Helper.loadPage(context, RegisterPage()),
+                          onPressed: () =>
+                              Helper.loadPage(context, '/RegisterPage'),
                         ),
                       ),
                     ],
@@ -138,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
     } catch (e) {
       setState(() {
         _loginMessage =
-        'An erorr occured while attempting to sign in with your Google account.';
+            'An erorr occured while attempting to sign in with your Google account.';
       });
     }
 
@@ -147,8 +148,8 @@ class _LoginPageState extends State<LoginPage> {
         _loginMessage = 'Successfuly signed in on wave.';
       });
 
-      // Redirect to the Feed
-      Helper.redirect(context, HomePage());
+      // Redirect to Home page.
+      Helper.redirect(context, '/HomePage');
     } else {
       Helper.showSnackBar(_scaffoldState, _loginMessage, 5);
     }
@@ -167,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
       if (error.toString().contains('ERROR_USER_NOT_FOUND') ||
           error.toString().contains('ERROR_WRONG_PASSWORD')) {
         setState(() => _loginMessage = 'Incorrect email or password');
-      } else if(error.toString().contains('ERROR_INVALID_EMAIL')) {
+      } else if (error.toString().contains('ERROR_INVALID_EMAIL')) {
         setState(() => _loginMessage = 'Invalid email or password');
       }
     }
@@ -177,8 +178,8 @@ class _LoginPageState extends State<LoginPage> {
         _loginMessage = 'Successfuly signed in on wave.';
       });
 
-      // Redirect to the Feed
-      Helper.redirect(context, HomePage());
+      // Redirect to Home page.
+      Helper.redirect(context, '/HomePage');
     } else {
       Helper.showSnackBar(_scaffoldState, _loginMessage, 5);
     }

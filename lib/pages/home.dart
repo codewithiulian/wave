@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
             RaisedButton(
               onPressed: () async {
                 await _authHelper.signOut();
-                Helper.redirect(context, LoginPage());
+                Helper.redirect(context, '/LoginPage');
               },
               child: Text('Sign out'),
             ),

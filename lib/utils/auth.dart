@@ -17,7 +17,7 @@ class AuthHelper {
         .user);
   }
 
-  Future<User> getUser() async{
+  Future<User> getUser() async {
     return _getUserFromFirebaseUser(await _firebaseAuth.currentUser());
   }
 
