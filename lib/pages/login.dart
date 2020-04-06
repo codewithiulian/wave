@@ -5,7 +5,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import '../utils/helper.dart';
 import '../utils/auth.dart';
 import '../pages/register.dart';
-import '../pages/home.dart';
+import '../pages/landing.dart';
 import '../models/user.dart';
 
 class LoginPage extends StatefulWidget {

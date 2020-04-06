@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'models/user.dart';
-import 'pages/home.dart';
+import 'pages/landing.dart';
 import 'pages/login.dart';
 import 'pages/register.dart';
 import 'utils/router.dart';
@@ -24,7 +24,7 @@ class Wave extends StatelessWidget {
         routes: <String, WidgetBuilder>{
           "/LoginPage": (BuildContext context) => new LoginPage(),
           "/RegisterPage": (BuildContext context) => new RegisterPage(),
-          "/HomePage": (BuildContext context) => new HomePage(),
+          "/HomePage": (BuildContext context) => new LandingPage(),
         },
       ),
     );

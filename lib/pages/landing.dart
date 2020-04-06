@@ -5,15 +5,18 @@ import 'package:provider/provider.dart';
 
 import '../utils/auth.dart';
 import '../utils/helper.dart';
-import '../pages/login.dart';
 import '../models/user.dart';
+import '../pages/tabs/home.dart';
+import '../pages/tabs/waves.dart';
+import '../pages/tabs/collabs.dart';
+import '../pages/tabs/profile.dart';
 
-class HomePage extends StatefulWidget {
+class LandingPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _HomePageState();
+  State<StatefulWidget> createState() => _LandingPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _LandingPageState extends State<LandingPage> {
   final _authHelper = AuthHelper();
   int _currentIndex = 0;
 
@@ -22,37 +25,23 @@ class _HomePageState extends State<HomePage> {
     final user = Provider.of<User>(context);
 
     final tabs = [
-      Center(
-        child: Column(
-          children: <Widget>[
-            Padding(
-                padding: EdgeInsets.all(40.0),
-                child: Text('Welcome ${user?.displayName}')),
-            RaisedButton(
-              onPressed: () async {
-                await _authHelper.signOut();
-                Helper.redirect(context, '/LoginPage');
-              },
-              child: Text('Sign out'),
-            ),
-          ],
-        ),
-      ),
-      Center(
-        child: Text('Waves'),
-      ),
-      Center(
-        child: Text('Collabs'),
-      ),
-      Center(
-        child: Text('Profile'),
-      ),
+      HomeTab(),
+      WavesTab(),
+      CollabsTab(),
+      ProfileTab(),
     ];
+
     // If the user is not logged in.
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         backgroundColor: Colors.grey[200],
-        appBar: null,
+        appBar: AppBar(
+          title: Text(
+            'wave.',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0),
+          ),
+          centerTitle: true,
+        ),
         body: tabs[_currentIndex],
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,

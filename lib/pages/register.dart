@@ -3,7 +3,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
 import 'package:wave/models/user.dart';
-import 'home.dart';
+import 'landing.dart';
 import '../utils/helper.dart';
 import '../utils/auth.dart';
 
