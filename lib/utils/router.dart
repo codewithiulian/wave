@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../pages/home.dart';
-import '../pages/landing.dart';
+import '../pages/login.dart';
 import '../models/user.dart';
 
 class Router extends StatelessWidget {
@@ -15,7 +15,7 @@ class Router extends StatelessWidget {
 
     // Return to the LandingPage if not authenticated.
     if(user == null) {
-      return LandingPage();
+      return LoginPage();
     } else {
       return HomePage();
     }

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'utils/router.dart';
 import 'models/user.dart';
+import 'pages/home.dart';
+import 'pages/login.dart';
+import 'pages/register.dart';
+import 'utils/router.dart';
 import 'utils/auth.dart';
 
-void main() {
-  runApp(Wave());
-}
+void main() => runApp(Wave());
 
 class Wave extends StatelessWidget {
   @override
@@ -20,6 +21,11 @@ class Wave extends StatelessWidget {
           primarySwatch: Colors.indigo,
         ),
         home: Router(),
+        routes: <String, WidgetBuilder>{
+          "/LoginPage": (BuildContext context) => new LoginPage(),
+          "/RegisterPage": (BuildContext context) => new RegisterPage(),
+          "/HomePage": (BuildContext context) => new HomePage(),
+        },
       ),
     );
   }

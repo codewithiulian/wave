@@ -8,12 +8,12 @@ import '../pages/register.dart';
 import '../pages/home.dart';
 import '../models/user.dart';
 
-class LandingPage extends StatefulWidget {
+class LoginPage extends StatefulWidget {
   @override
-  _LandingPageState createState() => _LandingPageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _LandingPageState extends State<LandingPage> {
+class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldState =
       new GlobalKey<ScaffoldState>();

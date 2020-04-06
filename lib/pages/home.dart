@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../utils/auth.dart';
 import '../utils/helper.dart';
-import '../pages/landing.dart';
+import '../pages/login.dart';
 import '../models/user.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,26 +17,36 @@ class _HomePageState extends State<HomePage> {
   final _authHelper = AuthHelper();
   int _currentIndex = 0;
 
-
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
-    Helper.verifyAuthentication(user, context);
+
     final tabs = [
-      Center(child: Column(
-        children: <Widget>[
-          Padding(
-              padding: EdgeInsets.all(40.0),
-              child: Text('Welcome ${user.displayName}')),
-          RaisedButton(
-            onPressed: () async => await _authHelper.signOut(),
-            child: Text('Sign out'),
-          ),
-        ],
-      ),),
-      Center(child: Text('Waves'),),
-      Center(child: Text('Collabs'),),
-      Center(child: Text('Profile'),),
+      Center(
+        child: Column(
+          children: <Widget>[
+            Padding(
+                padding: EdgeInsets.all(40.0),
+                child: Text('Welcome ${user?.displayName}')),
+            RaisedButton(
+              onPressed: () async {
+                await _authHelper.signOut();
+                Helper.redirect(context, LoginPage());
+              },
+              child: Text('Sign out'),
+            ),
+          ],
+        ),
+      ),
+      Center(
+        child: Text('Waves'),
+      ),
+      Center(
+        child: Text('Collabs'),
+      ),
+      Center(
+        child: Text('Profile'),
+      ),
     ];
     // If the user is not logged in.
     return Scaffold(
