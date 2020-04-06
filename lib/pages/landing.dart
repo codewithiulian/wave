@@ -27,9 +27,6 @@ class _LandingPageState extends State<LandingPage> {
   String _loginMessage;
 
   @override
-  void initState() {}
-
-  @override
   Widget build(BuildContext context) {
     // If the user is not logged in.
     return Scaffold(

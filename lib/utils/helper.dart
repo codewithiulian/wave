@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../models/user.dart';
+import '../pages/landing.dart';
 
 class Helper {
   /// Responsible for pushing a new page to the Navigator, thus navigating.
@@ -7,6 +9,12 @@ class Helper {
     Navigator.of(context).push(
       MaterialPageRoute<void>(builder: (_) => page),
     );
+  }
+
+  /// Verifies the user is authenticated.
+  /// If not, the app redirects to the landing page.
+  static void verifyAuthentication(User user, BuildContext context) {
+    if(user == null) redirect(context, LandingPage());
   }
 
   /// Goes back to the page it has been loaded from.

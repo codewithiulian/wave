@@ -17,6 +17,10 @@ class AuthHelper {
         .user);
   }
 
+  Future<User> getUser() async{
+    return _getUserFromFirebaseUser(await _firebaseAuth.currentUser());
+  }
+
   /// Authenticates a user in the system.
   /// Requires email and password as strings.
   /// Returns a custom User object.
