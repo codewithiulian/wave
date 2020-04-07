@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'components/wave.dart';
+import 'package:wave/utils/database.dart';
+import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeTab extends StatefulWidget {
   @override

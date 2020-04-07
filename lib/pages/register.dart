@@ -19,6 +19,7 @@ class RegisterPageState extends State<RegisterPage> {
   final GlobalKey<ScaffoldState> _scaffoldState =
       new GlobalKey<ScaffoldState>();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _passwordConfirmController =
       TextEditingController();
@@ -82,6 +83,14 @@ class RegisterPageState extends State<RegisterPage> {
                             prefixIcon: Icon(FontAwesome.envelope),
                           ),
                           validator: _emailValidator,
+                        ),
+                        TextFormField(
+                          controller: _nameController,
+                          decoration: const InputDecoration(
+                            labelText: 'Name',
+                            prefixIcon: Icon(Icons.person),
+                          ),
+                          validator: RequiredValidator(errorText: 'Please type in your name'),
                         ),
                         TextFormField(
                           controller: _passwordController,
@@ -172,7 +181,7 @@ class RegisterPageState extends State<RegisterPage> {
     User user;
     try {
       user = await _authHelper.registerUserWithEmailAndPassword(
-          _emailController.text, _passwordController.text);
+          _emailController.text, _nameController.text, _passwordController.text);
     } catch (error) {
       setState(() {
         if (error.toString().contains('ERROR_EMAIL_ALREADY_IN_USE')) {

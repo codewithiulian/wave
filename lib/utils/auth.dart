@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:wave/models/userprofile.dart';
 import 'package:wave/utils/database.dart';
 
 import '../models/user.dart';
@@ -12,10 +13,16 @@ class AuthHelper {
   /// Takes in the user email and password as strings.
   /// Returns a FirebaseUser object.
   Future<User> registerUserWithEmailAndPassword(
-      String email, String password) async {
-    return _getUserFromFirebaseUser((await _firebaseAuth
+      String email, String name, String password) async {
+    User user = _getUserFromFirebaseUser((await _firebaseAuth
             .createUserWithEmailAndPassword(email: email, password: password))
         .user);
+    user.displayName = name;
+
+    // Create default profile if non existent.
+    await _createDefaultProfile(user);
+
+    return user;
   }
 
   Future<User> getUser() async {
@@ -27,15 +34,9 @@ class AuthHelper {
   /// Returns a custom User object.
   Future<User> authenticateUserWithEmailAndPassword(
       String email, String password) async {
-    final user = _getUserFromFirebaseUser((await _firebaseAuth
-        .signInWithEmailAndPassword(email: email, password: password))
+    return _getUserFromFirebaseUser((await _firebaseAuth
+            .signInWithEmailAndPassword(email: email, password: password))
         .user);
-
-    // Create user profile.
-    await DatabaseHelper(uid: user.uid)
-        .updateUserProfile(user.displayName, 'Narnia');
-
-    return user;
   }
 
   /// Authenticates a user with the Google account.
@@ -51,11 +52,29 @@ class AuthHelper {
     final user = _getUserFromFirebaseUser(
         (await _firebaseAuth.signInWithCredential(credential)).user);
 
-    // Create user profile.
-    await DatabaseHelper(uid: user.uid)
-        .updateUserProfile(user.displayName, 'Narnia');
+    // Create default profile if non existent.
+    await _createDefaultProfile(user);
 
     return user;
+  }
+
+  /// Creates the default user profile only if it does not already exist.
+  Future _createDefaultProfile(User user) async {
+    final snapShot = await DatabaseHelper(uid: user.uid)
+        .userProfileRef
+        .document(user.uid)
+        .get();
+
+    if (!snapShot.exists) {
+      // Create user profile.
+      await DatabaseHelper(uid: user.uid).updateUserProfile(UserProfile(
+          fullName: user.displayName ?? 'Please confirm your full name',
+          firstName: 'Please confirm your first name',
+          lastName: 'Please confirm your last name',
+          address: 'Please confirm your address',
+          bio: 'Hey there, I am using wave.',
+          accountType: 'Waver'));
+    }
   }
 
   /// Gets the user stream when it has changed and notifies the stream.
