@@ -159,7 +159,6 @@ class RegisterPageState extends State<RegisterPage> {
     if (user != null) {
       setState(() {
         _registrationMessage = 'Successfuly signed in on wave.';
-        print('Successfuly signed in. Redirecting to the Home page.');
       });
 
       // Redirect to the Feed

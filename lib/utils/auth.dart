@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:wave/utils/database.dart';
 
 import '../models/user.dart';
 
@@ -26,9 +27,15 @@ class AuthHelper {
   /// Returns a custom User object.
   Future<User> authenticateUserWithEmailAndPassword(
       String email, String password) async {
-    return _getUserFromFirebaseUser((await _firebaseAuth
-            .signInWithEmailAndPassword(email: email, password: password))
+    final user = _getUserFromFirebaseUser((await _firebaseAuth
+        .signInWithEmailAndPassword(email: email, password: password))
         .user);
+
+    // Create user profile.
+    await DatabaseHelper(uid: user.uid)
+        .updateUserProfile(user.displayName, 'Narnia');
+
+    return user;
   }
 
   /// Authenticates a user with the Google account.
@@ -41,8 +48,14 @@ class AuthHelper {
     final AuthCredential credential = GoogleAuthProvider.getCredential(
         idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
 
-    return _getUserFromFirebaseUser(
+    final user = _getUserFromFirebaseUser(
         (await _firebaseAuth.signInWithCredential(credential)).user);
+
+    // Create user profile.
+    await DatabaseHelper(uid: user.uid)
+        .updateUserProfile(user.displayName, 'Narnia');
+
+    return user;
   }
 
   /// Gets the user stream when it has changed and notifies the stream.

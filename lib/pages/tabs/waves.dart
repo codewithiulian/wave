@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wave/pages/tabs/components/wave.dart';
 
 class WavesTab extends StatefulWidget {
   @override
@@ -8,6 +9,15 @@ class WavesTab extends StatefulWidget {
 class _WavesTabState extends State<WavesTab> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child: Column(
+        children: <Widget>[
+          Text('Add a new Wave'),
+          RaisedButton(
+            onPressed: null,
+          ),
+        ],
+      ),
+    );
   }
 }

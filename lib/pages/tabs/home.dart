@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'components/wave.dart';
 
 class HomeTab extends StatefulWidget {
   @override

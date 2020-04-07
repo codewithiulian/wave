@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../utils/auth.dart';
 import '../utils/helper.dart';
 import '../models/user.dart';
+import 'tabs/components/wave.dart';
 import '../pages/tabs/home.dart';
 import '../pages/tabs/waves.dart';
 import '../pages/tabs/collabs.dart';
@@ -43,6 +45,14 @@ class _LandingPageState extends State<LandingPage> {
           centerTitle: true,
         ),
         body: tabs[_currentIndex],
+        floatingActionButton: FloatingActionButton(
+          onPressed: null,
+          child: Icon(
+            Icons.add,
+            size: 40.0,
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (index) => setState(() => _currentIndex = index),

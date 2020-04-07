@@ -11,9 +11,11 @@ dependencies:
     sdk: flutter
   google_sign_in: ^4.4.0
   firebase_auth: ^0.15.5+3
+  cloud_firestore: ^0.13.4+2
   form_field_validator: ^1.0.1
   flutter_icons: ^1.0.0+1
   provider: ^4.0.4
+  sliding_up_panel: ^1.0.1
 
 dev_dependencies:
   flutter_test:

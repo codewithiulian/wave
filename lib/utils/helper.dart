@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class Helper {
   /// Responsible for pushing a new page to the Navigator, thus navigating.
   /// Receives a context and a string route (see main.dart > routes).
-  static void loadPage(BuildContext context, String page) {
-    Navigator.of(context).pushNamed(page);
+  static void loadPage(BuildContext context, String route) {
+    Navigator.of(context).pushNamed(route);
   }
 
   /// Goes back to the page it has been loaded from.

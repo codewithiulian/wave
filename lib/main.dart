@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'models/user.dart';
 import 'pages/landing.dart';
 import 'pages/login.dart';
+import 'pages/tabs/components/wave.dart';
 import 'pages/register.dart';
 import 'utils/router.dart';
 import 'utils/auth.dart';
@@ -20,6 +21,7 @@ class Wave extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.indigo,
         ),
+        debugShowCheckedModeBanner: false,
         home: Router(),
         routes: <String, WidgetBuilder>{
           "/LoginPage": (BuildContext context) => new LoginPage(),
