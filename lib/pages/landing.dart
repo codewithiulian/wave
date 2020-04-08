@@ -37,17 +37,16 @@ class _LandingPageState extends State<LandingPage> {
     ];
 
     void _showWaveEditor() {
-      showModalBottomSheet(
+      showModalBottomSheet<dynamic>(
+          isScrollControlled: true,
           context: context,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
           ),
+          backgroundColor: Colors.grey[200],
           builder: (BuildContext context) {
             return Container(
-              padding: EdgeInsets.all(30.0),
-              height: 500.0,
-              child: Text('bottom sheet'),
-            );
+                padding: EdgeInsets.all(30.0), child: WaveEditor());
           });
     }
 
