@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'models/user.dart';
 import 'pages/landing.dart';
 import 'pages/login.dart';
-import 'pages/tabs/components/wave.dart';
 import 'pages/register.dart';
 import 'utils/router.dart';
 import 'utils/auth.dart';

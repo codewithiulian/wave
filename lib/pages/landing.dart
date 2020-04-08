@@ -36,6 +36,21 @@ class _LandingPageState extends State<LandingPage> {
       ProfileTab(),
     ];
 
+    void _showWaveEditor() {
+      showModalBottomSheet(
+          context: context,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+          ),
+          builder: (BuildContext context) {
+            return Container(
+              padding: EdgeInsets.all(30.0),
+              height: 500.0,
+              child: Text('bottom sheet'),
+            );
+          });
+    }
+
     // If the user is not logged in.
     return StreamProvider<UserProfile>.value(
       value: DatabaseHelper(uid: user?.uid).profile,
@@ -51,13 +66,14 @@ class _LandingPageState extends State<LandingPage> {
           ),
           body: tabs[_currentIndex],
           floatingActionButton: FloatingActionButton(
-            onPressed: null,
+            onPressed: () => _showWaveEditor(),
             child: Icon(
               Icons.add,
               size: 40.0,
             ),
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: _currentIndex,
             onTap: (index) => setState(() => _currentIndex = index),
