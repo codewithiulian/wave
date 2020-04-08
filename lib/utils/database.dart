@@ -1,15 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wave/models/user.dart';
 import 'package:wave/models/userprofile.dart';
+import 'package:wave/models/wavedata.dart';
 
 class DatabaseHelper {
   final String uid;
 
   DatabaseHelper({this.uid});
 
-  // Document Reference.
+  // User Profile Collection Reference.
   final CollectionReference userProfileRef =
       Firestore.instance.collection('userProfile');
+  // Waves Collection Reference.
+  final CollectionReference waveRef = Firestore.instance.collection('wave');
+
+  /// Creates a new Wave record in the following path:
+  /// Collection / Document / Collection / Document
+  /// wave       / uid      / waves      / uniqueId
+  Future addWave(String uid, WaveData waveData) async {
+    await waveRef.document(uid).collection('waves').add({
+      'collabType': waveData.collabType,
+      'address': waveData.address,
+      'budget': waveData.budget,
+      'doneBy': waveData.doneBy,
+    }).catchError((error) => print(error));
+  }
 
   /// Updates the profile of the Lancer.
   Future updateUserProfile(UserProfile userProfile) async {
@@ -20,7 +35,7 @@ class DatabaseHelper {
       'address': userProfile.address,
       'bio': userProfile.bio,
       'accountType': userProfile.accountType
-    });
+    }).catchError((error) => print(error));
   }
 
   /// Returns the User Profile Stream.

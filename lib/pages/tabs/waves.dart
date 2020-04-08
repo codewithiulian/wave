@@ -12,10 +12,7 @@ class _WavesTabState extends State<WavesTab> {
     return Container(
       child: Column(
         children: <Widget>[
-          Text('Add a new Wave'),
-          RaisedButton(
-            onPressed: null,
-          ),
+
         ],
       ),
     );

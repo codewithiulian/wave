@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:money_field/money_field.dart';
+import 'package:provider/provider.dart';
 import 'package:wave/models/collabtype.dart';
+import 'package:wave/models/user.dart';
+import 'package:wave/models/wavedata.dart';
+import 'package:wave/utils/database.dart';
 
 class WaveEditor extends StatefulWidget {
   @override
@@ -24,6 +28,19 @@ class _WaveEditorState extends State<WaveEditor> {
 
   @override
   Widget build(BuildContext context) {
+
+    final User user = Provider.of<User>(context);
+    final _db = DatabaseHelper(uid: user?.uid);
+
+    Future _addWave() async {
+      WaveData waveData = WaveData();
+      waveData.collabType = _currentCollabType ?? _collabTypes[0];
+      waveData.address = _currentAddress;
+      waveData.budget = _budgetController.doubleValue();
+      waveData.doneBy = _currentDeadline;
+      await _db.addWave(user?.uid, waveData);
+    }
+
     return Form(
       key: _formKey,
       child: Column(
@@ -155,8 +172,8 @@ class _WaveEditorState extends State<WaveEditor> {
                       ]),
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
-                          print(_currentAddress);
-                          print(_budgetController.doubleValue());
+                          await _addWave();
+                          Navigator.pop(context);
                         }
                       },
                     ),
