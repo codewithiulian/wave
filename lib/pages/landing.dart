@@ -10,7 +10,7 @@ import 'package:wave/utils/database.dart';
 import '../utils/auth.dart';
 import '../utils/helper.dart';
 import '../models/user.dart';
-import 'tabs/components/wave.dart';
+import 'tabs/components/waveeditor.dart';
 import '../pages/tabs/home.dart';
 import '../pages/tabs/waves.dart';
 import '../pages/tabs/collabs.dart';

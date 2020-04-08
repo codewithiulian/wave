@@ -23,6 +23,8 @@ class DatabaseHelper {
       'address': waveData.address,
       'budget': waveData.budget,
       'doneBy': waveData.doneBy,
+      'createdOn': waveData.createdOn,
+      'createdBy': waveData.createdBy,
     }).catchError((error) => print(error));
   }
 
@@ -45,6 +47,8 @@ class DatabaseHelper {
           address: e.data['address'],
           budget: e.data['budget'],
           doneBy: e.data['doneBy'],
+          createdOn: e.data['createdOn'],
+          createdBy: e.data['createdBy'],
         );
       }).toList();
     } catch (error) {

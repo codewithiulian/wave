@@ -21,7 +21,10 @@ class _WaveEditorState extends State<WaveEditor> {
     'Errands',
     'Cleaning',
     'Cooking',
-    'Babysitting'
+    'Babysitting',
+    'Handy Man',
+    'Furniture Fitting',
+    'Moving Out'
   ];
 
   final TextEditingController _addressController = TextEditingController();
@@ -44,6 +47,8 @@ class _WaveEditorState extends State<WaveEditor> {
       waveData.address = _currentAddress;
       waveData.budget = _budgetController.doubleValue();
       waveData.doneBy = selectedDate.toString();
+      waveData.createdOn = DateTime.now().toString();
+      waveData.createdBy = user?.displayName;
       await _db.addWave(user?.uid, waveData);
     }
 
