@@ -24,6 +24,8 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   final _authHelper = AuthHelper();
   int _currentIndex = 0;
+  final GlobalKey<ScaffoldState> _scaffoldState =
+  new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +52,10 @@ class _LandingPageState extends State<LandingPage> {
           });
     }
 
-    // If the user is not logged in.
     return StreamProvider<UserProfile>.value(
       value: DatabaseHelper(uid: user?.uid).profile,
       child: Scaffold(
+          key: _scaffoldState,
           resizeToAvoidBottomPadding: false,
           backgroundColor: Colors.grey[200],
           appBar: AppBar(
@@ -72,7 +74,7 @@ class _LandingPageState extends State<LandingPage> {
             ),
           ),
           floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
+          FloatingActionButtonLocation.centerDocked,
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: _currentIndex,
             onTap: (index) => setState(() => _currentIndex = index),

@@ -26,6 +26,32 @@ class DatabaseHelper {
     }).catchError((error) => print(error));
   }
 
+  /// Returns a WaveData stream.
+  /// Listen to this getter to get notified every time data is added
+  Stream<List<WaveData>> get waveData {
+    return waveRef
+        .document(uid)
+        .collection('waves')
+        .snapshots()
+        .map(_getWaveDataFromSnapshot);
+  }
+
+  /// Get a UserProfile from a QuerySnapshot.
+  List<WaveData> _getWaveDataFromSnapshot(QuerySnapshot snapshot) {
+    try {
+      return snapshot.documents.map((e) {
+        return new WaveData(
+          collabType: e.data['collabType'],
+          address: e.data['address'],
+          budget: e.data['budget'],
+          doneBy: e.data['doneBy'],
+        );
+      }).toList();
+    } catch (error) {
+      print(error);
+    }
+  }
+
   /// Updates the profile of the Lancer.
   Future updateUserProfile(UserProfile userProfile) async {
     return await userProfileRef.document(uid).setData({

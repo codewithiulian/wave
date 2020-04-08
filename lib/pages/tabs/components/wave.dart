@@ -17,7 +17,12 @@ enum CollabType { Errands, Cleaning, Cooking, Babysitting }
 
 class _WaveEditorState extends State<WaveEditor> {
   final _formKey = GlobalKey<FormState>();
-  final List<String> _collabTypes = ['Errands', 'Cleaning', 'Cooking', 'Babysitting'];
+  final List<String> _collabTypes = [
+    'Errands',
+    'Cleaning',
+    'Cooking',
+    'Babysitting'
+  ];
 
   final TextEditingController _addressController = TextEditingController();
   final MoneyFieldController _budgetController = MoneyFieldController();
@@ -28,16 +33,17 @@ class _WaveEditorState extends State<WaveEditor> {
 
   @override
   Widget build(BuildContext context) {
-
     final User user = Provider.of<User>(context);
     final _db = DatabaseHelper(uid: user?.uid);
 
     Future _addWave() async {
+      DateTime selectedDate =
+          _currentDeadline ?? DateTime.now().add(Duration(days: 1));
       WaveData waveData = WaveData();
       waveData.collabType = _currentCollabType ?? _collabTypes[0];
       waveData.address = _currentAddress;
       waveData.budget = _budgetController.doubleValue();
-      waveData.doneBy = _currentDeadline;
+      waveData.doneBy = selectedDate.toString();
       await _db.addWave(user?.uid, waveData);
     }
 
@@ -70,7 +76,7 @@ class _WaveEditorState extends State<WaveEditor> {
                 Tooltip(
                   textStyle: TextStyle(fontSize: 15.0, color: Colors.white),
                   message:
-                  'Waving means instantly notifying lancers in your area you need help on a task.',
+                      'Waving means instantly notifying lancers in your area you need help on a task.',
                   child: Icon(
                     Icons.info_outline,
                     color: Colors.indigo,
@@ -88,15 +94,15 @@ class _WaveEditorState extends State<WaveEditor> {
                   Container(
                     width: 300.0,
                     child: DropdownButtonFormField(
-                      items: _collabTypes.map((type) {
-                        return DropdownMenuItem(
-                          value: type,
-                          child: Text('$type'),
-                        );
-                      }).toList(),
-                      onChanged: (val) => setState(() => _currentCollabType),
-                      value: _currentCollabType ?? _collabTypes[0]
-                    ),
+                        items: _collabTypes.map((type) {
+                          return DropdownMenuItem(
+                            value: type,
+                            child: Text('$type'),
+                          );
+                        }).toList(),
+                        onChanged: (val) =>
+                            setState(() => _currentCollabType = val),
+                        value: _currentCollabType ?? _collabTypes[0]),
                   ),
                   Container(
                     padding: EdgeInsets.only(top: 10.0),
@@ -107,9 +113,9 @@ class _WaveEditorState extends State<WaveEditor> {
                           labelText: 'Address',
                           prefixIcon: Icon(Icons.pin_drop),
                           hintText:
-                          '1-13 St Giles High St, West End, London WC2H 8AG'),
+                              '1-13 St Giles High St, West End, London WC2H 8AG'),
                       validator: (val) =>
-                      val.isEmpty ? 'Please enter your address' : null,
+                          val.isEmpty ? 'Please enter your address' : null,
                       onChanged: (val) => setState(() => _currentAddress = val),
                     ),
                   ),
@@ -137,21 +143,21 @@ class _WaveEditorState extends State<WaveEditor> {
                             maxTime: DateTime.now().add(Duration(days: 30)),
                             // Latest in one month time.
                             onConfirm: (date) {
-                              setState(() {
-                                _currentDeadline = date;
-                              });
-                            }, currentTime: DateTime.now(), locale: LocaleType.en);
+                          setState(() {
+                            _currentDeadline = date;
+                          });
+                        }, currentTime: DateTime.now(), locale: LocaleType.en);
                       },
                       child: FlatButton(
                           child: Row(
-                            children: <Widget>[
-                              Text('Done by:'),
-                              Icon(
-                                Icons.calendar_today,
-                                color: Colors.indigo,
-                              ),
-                            ],
-                          )),
+                        children: <Widget>[
+                          Text('Done by:'),
+                          Icon(
+                            Icons.calendar_today,
+                            color: Colors.indigo,
+                          ),
+                        ],
+                      )),
                     ),
                   ),
                   Container(
