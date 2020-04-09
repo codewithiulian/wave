@@ -116,9 +116,9 @@ class _WavesTabState extends State<WavesTab> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Icon(Icons.calendar_today, color: Colors.indigo),
+                    Icon(Icons.person, color: Colors.indigo),
                     Text(
-                      _wave.createdBy ?? 'Missing author',
+                      _wave.createdBy,
                       style: TextStyle(
                           fontSize: 17.5, fontWeight: FontWeight.normal),
                     ),
