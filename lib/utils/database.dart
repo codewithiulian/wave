@@ -14,6 +14,11 @@ class DatabaseHelper {
   // Waves Collection Reference.
   final CollectionReference waveRef = Firestore.instance.collection('wave');
 
+  Future switchUserAccountType(String uid, String accountType) {
+    userProfileRef.document(uid).updateData(
+        {'accountType': accountType}).catchError((error) => print(error));
+  }
+
   /// Creates a new Wave record in the following path:
   /// Collection / Document / Collection / Document
   /// wave       / uid      / waves      / uniqueId
@@ -34,6 +39,7 @@ class DatabaseHelper {
     return waveRef
         .document(uid)
         .collection('waves')
+        .orderBy('createdOn', descending: true)
         .snapshots()
         .map(_getWaveDataFromSnapshot);
   }

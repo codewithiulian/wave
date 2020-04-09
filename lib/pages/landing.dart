@@ -25,7 +25,7 @@ class _LandingPageState extends State<LandingPage> {
   final _authHelper = AuthHelper();
   int _currentIndex = 0;
   final GlobalKey<ScaffoldState> _scaffoldState =
-  new GlobalKey<ScaffoldState>();
+      new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -74,8 +74,9 @@ class _LandingPageState extends State<LandingPage> {
             ),
           ),
           floatingActionButtonLocation:
-          FloatingActionButtonLocation.centerDocked,
+              FloatingActionButtonLocation.centerDocked,
           bottomNavigationBar: BottomNavigationBar(
+            elevation: 5,
             currentIndex: _currentIndex,
             onTap: (index) => setState(() => _currentIndex = index),
             type: BottomNavigationBarType.fixed,
