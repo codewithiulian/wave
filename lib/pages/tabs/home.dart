@@ -22,7 +22,7 @@ class _HomeTabState extends State<HomeTab> {
       if (userProfile.accountType == 'Lancer') {
         return Container(
           child: StreamBuilder<List<WaveData>>(
-              stream: DatabaseHelper().waveData,
+              stream: DatabaseHelper().userWaveData,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(

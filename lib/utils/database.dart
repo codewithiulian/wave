@@ -12,33 +12,40 @@ class DatabaseHelper {
   final CollectionReference userProfileRef =
       Firestore.instance.collection('userProfile');
   // Waves Collection Reference.
-  final CollectionReference waveRef = Firestore.instance.collection('wave');
+  final CollectionReference waveRef = Firestore.instance.collection('waves');
 
   Future switchUserAccountType(String uid, String accountType) {
     userProfileRef.document(uid).updateData(
         {'accountType': accountType}).catchError((error) => print(error));
   }
 
-  /// Creates a new Wave record in the following path:
-  /// Collection / Document / Collection / Document
-  /// wave       / uid      / waves      / uniqueId
-  Future addWave(String uid, WaveData waveData) async {
-    await waveRef.document(uid).collection('waves').add({
+  /// Creates a new Wave record.
+  Future addWave(WaveData waveData) async {
+    await waveRef.add({
       'collabType': waveData.collabType,
       'address': waveData.address,
       'budget': waveData.budget,
       'doneBy': waveData.doneBy,
       'createdOn': waveData.createdOn,
       'createdBy': waveData.createdBy,
+      'uid': uid,
+      'status': waveData.status
     }).catchError((error) => print(error));
   }
 
-  /// Returns a WaveData stream.
+  /// Returns a user specific WaveData stream.
   /// Listen to this getter to get notified every time data is added
+  Stream<List<WaveData>> get userWaveData {
+    return waveRef
+        .orderBy('createdOn', descending: true)
+        .where("uid", isEqualTo: uid)
+        .snapshots()
+        .map(_getWaveDataFromSnapshot);
+  }
+
+  /// Returns a user specific WaveData stream.
   Stream<List<WaveData>> get waveData {
     return waveRef
-        .document(uid)
-        .collection('waves')
         .orderBy('createdOn', descending: true)
         .snapshots()
         .map(_getWaveDataFromSnapshot);
@@ -46,20 +53,17 @@ class DatabaseHelper {
 
   /// Get a UserProfile from a QuerySnapshot.
   List<WaveData> _getWaveDataFromSnapshot(QuerySnapshot snapshot) {
-    try {
-      return snapshot.documents.map((e) {
-        return new WaveData(
+    return snapshot.documents.map((e) {
+      return new WaveData(
           collabType: e.data['collabType'],
           address: e.data['address'],
           budget: e.data['budget'],
           doneBy: e.data['doneBy'],
           createdOn: e.data['createdOn'],
           createdBy: e.data['createdBy'],
-        );
-      }).toList();
-    } catch (error) {
-      print(error);
-    }
+          uid: e.data['uid'],
+          status: e.data['status']);
+    }).toList();
   }
 
   /// Updates the profile of the Lancer.
