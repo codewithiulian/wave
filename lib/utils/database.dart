@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:wave/models/user.dart';
 import 'package:wave/models/userprofile.dart';
 import 'package:wave/models/wavedata.dart';
 
@@ -19,6 +18,15 @@ class DatabaseHelper {
         {'accountType': accountType}).catchError((error) => print(error));
   }
 
+  /// Updates a Wave's status to being a collaboration.
+  /// Also defines the lancerId.
+  Future collabWave(String lancerId, String waveDocumentId) async {
+    return await waveRef
+        .document(waveDocumentId)
+        .updateData({'lancerId': lancerId, 'status': 'Collab'}).catchError(
+            (error) => print(error));
+  }
+
   /// Creates a new Wave record.
   Future addWave(WaveData waveData) async {
     await waveRef.add({
@@ -28,25 +36,35 @@ class DatabaseHelper {
       'doneBy': waveData.doneBy,
       'createdOn': waveData.createdOn,
       'createdBy': waveData.createdBy,
-      'uid': uid,
-      'status': waveData.status
+      'waverId': waveData.waverId,
+      'status': waveData.status,
+      'lancerId': waveData.lancerId
     }).catchError((error) => print(error));
   }
 
-  /// Returns a user specific WaveData stream.
+  /// Returns a waver specific WaveData stream.
   /// Listen to this getter to get notified every time data is added
-  Stream<List<WaveData>> get userWaveData {
+  Stream<List<WaveData>> get waverWaveData {
     return waveRef
         .orderBy('createdOn', descending: true)
-        .where("uid", isEqualTo: uid)
+        .where("waverId", isEqualTo: uid)
         .snapshots()
         .map(_getWaveDataFromSnapshot);
   }
 
-  /// Returns a user specific WaveData stream.
+  /// Returns a lancer specific WaveData stream.
   Stream<List<WaveData>> get waveData {
     return waveRef
         .orderBy('createdOn', descending: true)
+        .snapshots()
+        .map(_getWaveDataFromSnapshot);
+  }
+
+  /// Returns a lancer specific WaveData stream.
+  Stream<List<WaveData>> get lancerWaveData {
+    return waveRef
+        .orderBy('createdOn', descending: true)
+        .where('lancerId', isEqualTo: uid)
         .snapshots()
         .map(_getWaveDataFromSnapshot);
   }
@@ -61,8 +79,10 @@ class DatabaseHelper {
           doneBy: e.data['doneBy'],
           createdOn: e.data['createdOn'],
           createdBy: e.data['createdBy'],
-          uid: e.data['uid'],
-          status: e.data['status']);
+          waverId: e.data['waverId'],
+          status: e.data['status'],
+          lancerId: e.data['lancerId'],
+          documentId: e.documentID);
     }).toList();
   }
 

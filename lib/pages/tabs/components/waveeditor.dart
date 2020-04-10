@@ -200,8 +200,9 @@ class _WaveEditorState extends State<WaveEditor> {
         doneBy: selectedDate.toString(),
         createdOn: DateTime.now().toString(),
         createdBy: user.displayName,
-        uid: user.uid,
-        status: 'Waved');
+        waverId: user.uid,
+        status: 'Waved',
+        lancerId: null);
 
     await _db.addWave(waveData);
   }

@@ -22,7 +22,7 @@ class _WavesTabState extends State<WavesTab> {
         userProfile?.accountType != 'Lancer') {
       return Container(
         child: StreamBuilder<List<WaveData>>(
-            stream: DatabaseHelper(uid: user.uid).userWaveData,
+            stream: DatabaseHelper(uid: user.uid).waverWaveData,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(

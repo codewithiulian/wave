@@ -14,22 +14,24 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
+  DatabaseHelper _db;
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<User>(context);
     final UserProfile userProfile = Provider.of<UserProfile>(context);
 
-    if (userProfile != null) {
+    if (user != null && userProfile != null) {
+      _db = DatabaseHelper(uid: user.uid);
       if (userProfile.accountType == 'Lancer') {
         return Container(
           child: StreamBuilder<List<WaveData>>(
-              stream: DatabaseHelper().userWaveData,
+              stream: _db.waveData,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) =>
-                          buildWaves(context, index, snapshot.data));
+                          buildWaves(context, index, snapshot.data, user.uid));
                 }
                 return Container();
               }),
@@ -42,7 +44,7 @@ class _HomeTabState extends State<HomeTab> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Text(
-              'Hi ${user.displayName}',
+              'Hi ${user?.displayName}',
               style: TextStyle(fontSize: 20.0),
             ),
           ),
@@ -65,7 +67,8 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
-  buildWaves(BuildContext context, int index, List<WaveData> wave) {
+  buildWaves(
+      BuildContext context, int index, List<WaveData> wave, String lancerId) {
     WaveData _wave = wave[index];
 
     return Container(
@@ -171,6 +174,8 @@ class _HomeTabState extends State<HomeTab> {
                         ),
                       ],
                     ),
+                    onPressed: () async =>
+                        await _collabWave(lancerId, _wave.documentId),
                   ),
                 ],
               ),
@@ -179,5 +184,9 @@ class _HomeTabState extends State<HomeTab> {
         ),
       ),
     );
+  }
+
+  Future _collabWave(String lancerId, String waveDocumentId) async {
+    return await _db.collabWave(lancerId, waveDocumentId);
   }
 }

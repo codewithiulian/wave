@@ -5,8 +5,10 @@ class WaveData {
   String doneBy;
   String createdOn;
   String createdBy;
-  String uid;
+  String lancerId;
   String status;
+  String waverId;
+  String documentId;
 
   WaveData(
       {this.collabType,
@@ -15,6 +17,8 @@ class WaveData {
       this.doneBy,
       this.createdOn,
       this.createdBy,
-      this.uid,
-      this.status});
+      this.lancerId,
+      this.status,
+      this.waverId,
+      this.documentId});
 }
