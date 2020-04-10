@@ -38,70 +38,73 @@ class _LandingPageState extends State<LandingPage> {
       ProfileTab(),
     ];
 
-    void _showWaveEditor() {
-      showModalBottomSheet<dynamic>(
-          isScrollControlled: true,
-          context: context,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
-          ),
-          backgroundColor: Colors.grey[200],
-          builder: (BuildContext context) {
-            return Container(
-                padding: EdgeInsets.all(30.0), child: WaveEditor());
-          });
+    if (user != null) {
+      return StreamProvider<UserProfile>.value(
+        value: DatabaseHelper(uid: user?.uid).profile,
+        child: Scaffold(
+            key: _scaffoldState,
+            resizeToAvoidBottomPadding: false,
+            backgroundColor: Colors.grey[200],
+            appBar: AppBar(
+              title: Text(
+                'wave.',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0),
+              ),
+              centerTitle: true,
+            ),
+            body: tabs[_currentIndex],
+            floatingActionButton: FloatingActionButton(
+              onPressed: () => _showWaveEditor(context),
+              child: Icon(
+                Icons.add,
+                size: 40.0,
+              ),
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            bottomNavigationBar: BottomNavigationBar(
+              elevation: 5,
+              currentIndex: _currentIndex,
+              onTap: (index) => setState(() => _currentIndex = index),
+              type: BottomNavigationBarType.fixed,
+              unselectedFontSize: 12.0,
+              selectedFontSize: 12.0,
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  title: Text('Home'),
+                  backgroundColor: Colors.blue[900],
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(FontAwesome5.hand_paper),
+                  title: Text('Waves'),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(FontAwesome5.handshake),
+                  title: Text('Collabs'),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(MaterialIcons.person),
+                  title: Text('Profile'),
+                ),
+              ],
+            )),
+      );
+    } else {
+      return Container();
     }
+  }
 
-    return StreamProvider<UserProfile>.value(
-      value: DatabaseHelper(uid: user?.uid).profile,
-      child: Scaffold(
-          key: _scaffoldState,
-          resizeToAvoidBottomPadding: false,
-          backgroundColor: Colors.grey[200],
-          appBar: AppBar(
-            title: Text(
-              'wave.',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0),
-            ),
-            centerTitle: true,
-          ),
-          body: tabs[_currentIndex],
-          floatingActionButton: FloatingActionButton(
-            onPressed: () => _showWaveEditor(),
-            child: Icon(
-              Icons.add,
-              size: 40.0,
-            ),
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          bottomNavigationBar: BottomNavigationBar(
-            elevation: 5,
-            currentIndex: _currentIndex,
-            onTap: (index) => setState(() => _currentIndex = index),
-            type: BottomNavigationBarType.fixed,
-            unselectedFontSize: 12.0,
-            selectedFontSize: 12.0,
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                title: Text('Home'),
-                backgroundColor: Colors.blue[900],
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(FontAwesome5.hand_paper),
-                title: Text('Waves'),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(FontAwesome5.handshake),
-                title: Text('Collabs'),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(MaterialIcons.person),
-                title: Text('Profile'),
-              ),
-            ],
-          )),
-    );
+  void _showWaveEditor(BuildContext context) {
+    showModalBottomSheet<dynamic>(
+        isScrollControlled: true,
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
+        ),
+        backgroundColor: Colors.grey[200],
+        builder: (BuildContext context) {
+          return Container(padding: EdgeInsets.all(30.0), child: WaveEditor());
+        });
   }
 }

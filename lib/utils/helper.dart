@@ -1,6 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 class Helper {
+  /// Returns a Material icon based on a collaboration type.
+  static IconData getCollaborationIcon(String _collabType) {
+    switch (_collabType) {
+      case 'Errands':
+        return MaterialCommunityIcons.run;
+      case 'Cleaning':
+        return MaterialCommunityIcons.silverware_clean;
+      case 'Cooking':
+        return MaterialCommunityIcons.chef_hat;
+      case 'Babysitting':
+        return MaterialCommunityIcons.human_child;
+      case 'Handy Man':
+        return MaterialCommunityIcons.hammer;
+      case 'Furniture Fitting':
+        return MaterialCommunityIcons.sofa;
+      case 'Moving Out':
+        return MaterialCommunityIcons.home;
+      default:
+        return Icons.work;
+    }
+  }
+
   /// Responsible for pushing a new page to the Navigator, thus navigating.
   /// Receives a context and a string route (see main.dart > routes).
   static void loadPage(BuildContext context, String route) {

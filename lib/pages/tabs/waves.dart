@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:wave/models/user.dart';
 import 'package:wave/models/wavedata.dart';
 import 'package:wave/utils/database.dart';
-import 'package:intl/intl.dart';
+import 'package:wave/utils/helper.dart';
 
 class WavesTab extends StatefulWidget {
   @override
@@ -12,27 +11,6 @@ class WavesTab extends StatefulWidget {
 }
 
 class _WavesTabState extends State<WavesTab> {
-  IconData getIcon(String _collabType) {
-    switch (_collabType) {
-      case 'Errands':
-        return MaterialCommunityIcons.run;
-      case 'Cleaning':
-        return MaterialCommunityIcons.silverware_clean;
-      case 'Cooking':
-        return MaterialCommunityIcons.chef_hat;
-      case 'Babysitting':
-        return MaterialCommunityIcons.human_child;
-      case 'Handy Man':
-        return MaterialCommunityIcons.hammer;
-      case 'Furniture Fitting':
-        return MaterialCommunityIcons.sofa;
-      case 'Moving Out':
-        return MaterialCommunityIcons.home;
-      default:
-        return Icons.work;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -53,7 +31,7 @@ class _WavesTabState extends State<WavesTab> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        Icon(getIcon(_wave.collabType),
+                        Icon(Helper.getCollaborationIcon(_wave.collabType),
                             size: 40.0, color: Colors.indigo),
                         Padding(
                             padding: EdgeInsets.only(left: 7.0),
