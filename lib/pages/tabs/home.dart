@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:wave/models/user.dart';
 import 'package:wave/models/userprofile.dart';
 import 'package:wave/models/wavedata.dart';
@@ -35,7 +36,33 @@ class _HomeTabState extends State<HomeTab> {
         );
       }
     }
-    return Container();
+    return Container(
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              'Hi ${user.displayName}',
+              style: TextStyle(fontSize: 20.0),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              'This is where you see Lancers around your area.',
+              style: TextStyle(fontSize: 20.0),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              'Unfortunately there is nothing here yet for Wavers, but will be in the nearest future. Feel free to add a wave by clicking the plus button at the bottom of the screen.',
+              style: TextStyle(fontSize: 15.0),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   buildWaves(BuildContext context, int index, List<WaveData> wave) {
@@ -44,7 +71,7 @@ class _HomeTabState extends State<HomeTab> {
     return Container(
       child: Card(
         elevation: 4,
-        margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
+        margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 10.0),
         child: Column(
           children: <Widget>[
             Padding(
@@ -65,7 +92,6 @@ class _HomeTabState extends State<HomeTab> {
                           )),
                     ],
                   ),
-                  Icon(Icons.edit, color: Colors.indigo),
                 ],
               ),
             ),
@@ -121,6 +147,30 @@ class _HomeTabState extends State<HomeTab> {
                     _wave.createdBy,
                     style: TextStyle(
                         fontSize: 17.5, fontWeight: FontWeight.normal),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  RaisedButton(
+                    child: Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(right: 5.0),
+                          child: Icon(MaterialCommunityIcons.thumb_up,
+                              color: Colors.indigo),
+                        ),
+                        Text(
+                          'Collab',
+                          style: TextStyle(
+                              fontSize: 17.5, fontWeight: FontWeight.normal),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

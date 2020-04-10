@@ -35,7 +35,33 @@ class _WavesTabState extends State<WavesTab> {
             }),
       );
     }
-    return Container();
+    return Container(
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              'Hi ${userProfile.fullName}',
+              style: TextStyle(fontSize: 20.0),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              'This is where you see any active waves.',
+              style: TextStyle(fontSize: 20.0),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              'Unfortunately there is nothing here yet for Lancers, but will be in the nearest future. Feel free to collab on any wave found on your Home tab. Wavers are waitign for you.',
+              style: TextStyle(fontSize: 15.0),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildWaves(BuildContext context, int index, List<WaveData> wave) {
@@ -105,20 +131,6 @@ class _WavesTabState extends State<WavesTab> {
                   Icon(Icons.calendar_today, color: Colors.indigo),
                   Text(
                     _wave.doneBy,
-                    style: TextStyle(
-                        fontSize: 17.5, fontWeight: FontWeight.normal),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Icon(Icons.person, color: Colors.indigo),
-                  Text(
-                    _wave.createdBy,
                     style: TextStyle(
                         fontSize: 17.5, fontWeight: FontWeight.normal),
                   ),
