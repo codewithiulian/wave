@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:wave/models/user.dart';
 import 'package:wave/models/userprofile.dart';
@@ -42,10 +43,11 @@ class _CollabsTabState extends State<CollabsTab> {
   Widget _buildWaves(
       BuildContext context, int index, List<WaveData> wave, bool isWaver) {
     WaveData _wave = wave[index];
+    bool isComplete = _wave.status == 'Complete';
 
     return Container(
       child: Card(
-        color: Colors.indigo[100],
+        color: isComplete ? Colors.green[200] : Colors.indigo[100],
         elevation: 4,
         margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 10.0),
         child: Column(
@@ -108,15 +110,30 @@ class _CollabsTabState extends State<CollabsTab> {
                 ],
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Icon(Icons.person, color: Colors.indigo),
+                  Text(
+                    isWaver ? _wave.lancerName : _wave.waverName,
+                    style: TextStyle(
+                        fontSize: 17.5, fontWeight: FontWeight.normal),
+                  ),
+                ],
+              ),
+            ),
             Visibility(
-              visible: isWaver,
+              visible: isWaver && !isComplete,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     RaisedButton(
-                      onPressed: () async => await _completeCollab,
+                      onPressed: () async =>
+                          await _completeCollab(_wave.documentId),
                       child: Row(
                         children: <Widget>[
                           Icon(Icons.check, color: Colors.indigo),
@@ -128,13 +145,27 @@ class _CollabsTabState extends State<CollabsTab> {
                 ),
               ),
             ),
+            Visibility(
+              visible: isComplete,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.check, color: Colors.indigo),
+                    Text('Complete')
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Future _completeCollab() {}
+  Future _completeCollab(String waveDocumentId) async {
+    return await _databaseHelper.completeWave(waveDocumentId);
+  }
 
   Widget _showNoDataContainer(String userFullName) {
     return Container(

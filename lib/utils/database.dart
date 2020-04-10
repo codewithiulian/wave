@@ -13,9 +13,17 @@ class DatabaseHelper {
   // Waves Collection Reference.
   final CollectionReference waveRef = Firestore.instance.collection('waves');
 
-  Future switchUserAccountType(String uid, String accountType) {
-    userProfileRef.document(uid).updateData(
+  Future switchUserAccountType(String uid, String accountType) async {
+    return await userProfileRef.document(uid).updateData(
         {'accountType': accountType}).catchError((error) => print(error));
+  }
+
+  /// Updates a Wave's status to being a Complete collaboration.
+  /// Also defines the lancerId.
+  Future completeWave(String waveDocumentId) async {
+    return await waveRef.document(waveDocumentId).updateData({
+      'status': 'Complete',
+    }).catchError((error) => print(error));
   }
 
   /// Updates a Wave's status to being a collaboration.
@@ -66,11 +74,11 @@ class DatabaseHelper {
         .map(_getWaveDataFromSnapshot);
   }
 
-  /// Returns a lancer specific WaveData stream
-  /// with the status of Collab
+  /// Returns WaveData stream
+  /// with the status of either Collab or Complete.
   Stream<List<WaveData>> get collabWaveData {
     return waveRef
-        .where('status', isEqualTo: 'Collab')
+        .where('status', whereIn: ['Collab', 'Complete'])
         .orderBy('createdOn', descending: true)
         .snapshots()
         .map(_getWaveDataFromSnapshot);
