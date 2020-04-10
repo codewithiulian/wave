@@ -18,8 +18,14 @@ class DatabaseHelper {
         {'accountType': accountType}).catchError((error) => print(error));
   }
 
+  /// Updates a Wave's status to being a Archived collaboration.
+  Future archiveWave(String waveDocumentId) async {
+    return await waveRef.document(waveDocumentId).updateData({
+      'status': 'Archived',
+    }).catchError((error) => print(error));
+  }
+
   /// Updates a Wave's status to being a Complete collaboration.
-  /// Also defines the lancerId.
   Future completeWave(String waveDocumentId) async {
     return await waveRef.document(waveDocumentId).updateData({
       'status': 'Complete',
@@ -27,7 +33,7 @@ class DatabaseHelper {
   }
 
   /// Updates a Wave's status to being a collaboration.
-  /// Also defines the lancerId.
+  /// Also defines the lancerId and lancerName.
   Future collabWave(
       String lancerId, String waveDocumentId, String lancerName) async {
     return await waveRef.document(waveDocumentId).updateData({

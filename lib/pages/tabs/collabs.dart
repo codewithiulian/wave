@@ -55,16 +55,28 @@ class _CollabsTabState extends State<CollabsTab> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Icon(Helper.getCollaborationIcon(_wave.collabType),
-                      size: 40.0, color: Colors.indigo),
-                  Padding(
-                      padding: EdgeInsets.only(left: 7.0),
-                      child: Text(
-                        _wave.collabType,
-                        style: TextStyle(
-                            fontSize: 18.5, fontWeight: FontWeight.normal),
-                      )),
+                  Row(
+                    children: <Widget>[
+                      Icon(Helper.getCollaborationIcon(_wave.collabType),
+                          size: 40.0, color: Colors.indigo),
+                      Padding(
+                          padding: EdgeInsets.only(left: 7.0),
+                          child: Text(
+                            _wave.collabType,
+                            style: TextStyle(
+                                fontSize: 18.5, fontWeight: FontWeight.normal),
+                          )),
+                    ],
+                  ),
+                  FlatButton(
+                      onPressed: () async =>
+                          await _archiveWave(_wave.documentId),
+                      child: Icon(
+                        Icons.delete,
+                        color: Colors.indigo,
+                      ))
                 ],
               ),
             ),
@@ -161,6 +173,10 @@ class _CollabsTabState extends State<CollabsTab> {
         ),
       ),
     );
+  }
+
+  Future _archiveWave(String waveDocumentId) async {
+    return await _databaseHelper.archiveWave(waveDocumentId);
   }
 
   Future _completeCollab(String waveDocumentId) async {
