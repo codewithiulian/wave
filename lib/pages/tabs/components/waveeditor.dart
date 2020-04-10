@@ -3,7 +3,6 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:money_field/money_field.dart';
 import 'package:provider/provider.dart';
-import 'package:wave/models/collabtype.dart';
 import 'package:wave/models/user.dart';
 import 'package:wave/models/wavedata.dart';
 import 'package:wave/utils/database.dart';
@@ -27,7 +26,7 @@ class _WaveEditorState extends State<WaveEditor> {
 
   final TextEditingController _addressController = TextEditingController();
   final MoneyFieldController _budgetController = MoneyFieldController();
-  DatabaseHelper _db;
+  DatabaseHelper _databaseHelper;
 
   String _currentAddress = '';
   DateTime _currentDeadline;
@@ -38,7 +37,7 @@ class _WaveEditorState extends State<WaveEditor> {
     final User user = Provider.of<User>(context);
 
     if (user != null) {
-      _db = DatabaseHelper(uid: user.uid);
+      _databaseHelper = DatabaseHelper(uid: user.uid);
 
       return Form(
         key: _formKey,
@@ -199,11 +198,10 @@ class _WaveEditorState extends State<WaveEditor> {
         budget: _budgetController.doubleValue(),
         doneBy: selectedDate.toString(),
         createdOn: DateTime.now().toString(),
-        createdBy: user.displayName,
+        waverName: user.displayName,
         waverId: user.uid,
-        status: 'Waved',
-        lancerId: null);
+        status: 'Waved');
 
-    await _db.addWave(waveData);
+    await _databaseHelper.addWave(waveData);
   }
 }

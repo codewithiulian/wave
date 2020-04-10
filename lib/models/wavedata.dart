@@ -4,11 +4,12 @@ class WaveData {
   double budget;
   String doneBy;
   String createdOn;
-  String createdBy;
+  String waverName;
   String lancerId;
   String status;
   String waverId;
   String documentId;
+  String lancerName;
 
   WaveData(
       {this.collabType,
@@ -16,9 +17,10 @@ class WaveData {
       this.budget,
       this.doneBy,
       this.createdOn,
-      this.createdBy,
+      this.waverName,
       this.lancerId,
       this.status,
       this.waverId,
-      this.documentId});
+      this.documentId,
+      this.lancerName});
 }

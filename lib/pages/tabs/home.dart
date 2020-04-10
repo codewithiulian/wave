@@ -5,7 +5,6 @@ import 'package:wave/models/userprofile.dart';
 import 'package:wave/models/wavedata.dart';
 import 'package:wave/utils/database.dart';
 import 'package:provider/provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wave/utils/helper.dart';
 
 class HomeTab extends StatefulWidget {
@@ -25,13 +24,14 @@ class _HomeTabState extends State<HomeTab> {
       if (userProfile.accountType == 'Lancer') {
         return Container(
           child: StreamBuilder<List<WaveData>>(
-              stream: _db.waveData,
+              stream: _db.lancerWaveData,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) =>
-                          buildWaves(context, index, snapshot.data, user.uid));
+                          _buildWaves(context, index, snapshot.data, user.uid,
+                              userProfile.fullName));
                 }
                 return Container();
               }),
@@ -67,8 +67,8 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
-  buildWaves(
-      BuildContext context, int index, List<WaveData> wave, String lancerId) {
+  _buildWaves(BuildContext context, int index, List<WaveData> wave,
+      String lancerId, String lancerName) {
     WaveData _wave = wave[index];
 
     return Container(
@@ -147,7 +147,7 @@ class _HomeTabState extends State<HomeTab> {
                 children: <Widget>[
                   Icon(Icons.person, color: Colors.indigo),
                   Text(
-                    _wave.createdBy,
+                    _wave.waverName,
                     style: TextStyle(
                         fontSize: 17.5, fontWeight: FontWeight.normal),
                   ),
@@ -174,8 +174,8 @@ class _HomeTabState extends State<HomeTab> {
                         ),
                       ],
                     ),
-                    onPressed: () async =>
-                        await _collabWave(lancerId, _wave.documentId),
+                    onPressed: () async => await _collabWave(
+                        lancerId, _wave.documentId, lancerName),
                   ),
                 ],
               ),
@@ -186,7 +186,8 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
-  Future _collabWave(String lancerId, String waveDocumentId) async {
-    return await _db.collabWave(lancerId, waveDocumentId);
+  Future _collabWave(
+      String lancerId, String waveDocumentId, String lancerName) async {
+    return await _db.collabWave(lancerId, waveDocumentId, lancerName);
   }
 }

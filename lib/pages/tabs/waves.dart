@@ -55,7 +55,7 @@ class _WavesTabState extends State<WavesTab> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Text(
-              'Unfortunately there is nothing here yet for Lancers, but will be in the nearest future. Feel free to collab on any wave found on your Home tab. Wavers are waitign for you.',
+              'Unfortunately there is nothing here yet for Lancers, but will be in the nearest future. Feel free to collab on any wave found on your Home tab. Wavers are waiting for you.',
               style: TextStyle(fontSize: 15.0),
             ),
           ),
@@ -70,7 +70,7 @@ class _WavesTabState extends State<WavesTab> {
     return Container(
       child: Card(
         elevation: 4,
-        margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
+        margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 10.0),
         child: Column(
           children: <Widget>[
             Padding(
